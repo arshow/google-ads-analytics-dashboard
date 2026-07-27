@@ -1,54 +1,59 @@
 # Google Ads Analytics Dashboard
 
-Internal Google Ads analytics and reporting tool built with the official Google Ads API and Google Ads MCP Server.
+An internal, read-only Google Ads reporting and analytics tool operated by an
+independent advertiser.
 
-## Overview
+## Website
 
-This project is a private internal analytics dashboard used for monitoring and analyzing owned Google Ads campaigns.
+The public project page explains the underlying business model, the internal
+tool, why Google Ads API access is functionally necessary, the reporting data
+flow, and the security and compliance boundaries.
 
-The tool provides:
+## Purpose
 
-* Campaign performance reporting
-* Keyword metrics analysis
-* Ad group monitoring
-* Performance trend visualization
-* Reporting dashboards
+The dashboard supports recurring analysis of Google Ads accounts owned or
+explicitly authorized by the operator. It is designed to:
 
-## Features
+- report campaign and ad group performance;
+- analyze keyword and search-term metrics;
+- monitor cost, clicks, conversions, and conversion value over time;
+- maintain consistent daily and weekly internal reporting views; and
+- reduce reliance on repeated manual report exports.
 
-* Google Ads API integration
-* OAuth authentication
-* Campaign reporting
-* Keyword analysis
-* Metrics visualization
-* Read-only reporting workflows
+## API usage
 
-## Technology Stack
+The current workflow is read-only. It uses:
 
-* Node.js
-* Google Ads API
-* Google Ads MCP Server
-* React
-* REST API
+- `GoogleAdsService.Search`;
+- `GoogleAdsService.SearchStream`;
+- Google Ads Query Language (GAQL); and
+- the official Google Ads MCP Server integration.
 
-## Security
+## Access and compliance
 
-* OAuth-based authentication
-* Secure token storage
-* Internal-use only
-* No third-party account access
+The tool:
 
-## Compliance
+- is used only by the owner and authorized internal users;
+- accesses owned or explicitly authorized Google Ads accounts;
+- does not provide public registration;
+- does not manage third-party client accounts;
+- does not resell or distribute Google Ads API access;
+- does not expose developer tokens or OAuth credentials; and
+- does not automatically create, edit, pause, or delete campaigns.
 
-This tool is intended for internal use only.
+Interface visuals on the public project page are labelled as illustrative data.
 
-The application:
+## Design documentation
 
-* does not manage third-party client accounts
-* does not resell API access
-* does not perform prohibited automated actions
-* does not share developer tokens
+See
+[`doc/Google_Ads_Internal_Analytics_Design_Doc.md`](doc/Google_Ads_Internal_Analytics_Design_Doc.md)
+for the architecture, data handling, permissions, security measures, and
+compliance scope.
 
-## Status
+## Contact
 
-Active internal development and reporting usage.
+`arshow@gmail.com`
+
+## License
+
+MIT
