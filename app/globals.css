@@ -10,6 +10,8 @@
   --purple-pale: #e9e4ff;
   --lime: #b8f397;
   --line: rgba(20, 17, 31, 0.13);
+  --font-manrope: "Aptos", "Segoe UI", Arial, sans-serif;
+  --font-source-serif: Georgia, "Times New Roman", serif;
 }
 
 * {

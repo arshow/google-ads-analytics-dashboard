@@ -9,6 +9,13 @@ The public project page explains the underlying business model, the internal
 tool, why Google Ads API access is functionally necessary, the reporting data
 flow, and the security and compliance boundaries.
 
+GitHub Pages URL:
+
+<https://arshow.github.io/google-ads-analytics-dashboard/>
+
+The site is exported as static HTML with Next.js and deployed automatically by
+the workflow in `.github/workflows/deploy-pages.yml` whenever `main` is pushed.
+
 ## Purpose
 
 The dashboard supports recurring analysis of Google Ads accounts owned or
