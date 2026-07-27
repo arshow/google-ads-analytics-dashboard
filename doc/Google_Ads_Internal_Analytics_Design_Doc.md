@@ -1,212 +1,284 @@
-# Google Ads API Design Document  
-## Internal Analytics Dashboard for Owned Google Ads Account
+# Google Ads API Design Document
+## Restricted-Access Analytics and Reporting Platform for Client-Authorized Accounts
 
 ## 1. Introduction
 
-This document describes the design, architecture, data handling, and compliance posture of an internal Google Ads analytics dashboard developed and used by an independent developer. The tool is intended solely for reporting, monitoring, and performance analysis of Google Ads accounts owned by the developer.
+This document describes the business purpose, system design, data handling,
+access controls, and compliance posture of the Arshow Google Ads Analytics
+Dashboard.
 
-The application is not a SaaS platform, agency platform, reseller product, or third-party account management system. It does not provide advertising services to external clients and does not expose Google Ads API access to any third party.
+Arshow provides project-based Google Ads data analysis and reporting services
+to cross-border e-commerce sellers. Clients pay a project fee in exchange for
+account-specific performance analysis, structured reports, restricted dashboard
+access, and reporting support for the agreed project.
 
-The primary purpose of the tool is to help the account owner review campaign performance, analyze keyword and ad group metrics, visualize trends, and make manual business decisions based on reporting data.
+The platform supports delivery of this service. It is not open to public
+registration and is not sold or licensed as a standalone SaaS product.
 
-## 2. Tool Overview
+The platform currently supports two client-authorized Google Ads accounts and
+approximately four active campaigns. Reporting data is refreshed on demand.
 
-The tool is a private internal dashboard used by the Google Ads account owner. It provides a consolidated interface for viewing Google Ads performance data retrieved through the official Google Ads API, accessed through the Google Ads MCP Server integration layer.
+## 2. Business Model and Value Exchange
 
-The dashboard is used for:
+The primary customers are cross-border e-commerce sellers that use Google Ads
+to promote their products in international markets.
 
-- Campaign reporting
-- Keyword performance analysis
-- Ad group monitoring
-- Metrics visualization
-- Performance trend analysis
+The value exchange is:
 
-The tool does not:
+- The client pays a project-based service fee.
+- The client explicitly authorizes access to the relevant Google Ads account.
+- Arshow provides account-specific data analysis, reporting, dashboard access,
+  and reporting support.
+- Client users can view only reporting data associated with their own
+  authorized Google Ads account.
 
-- Manage third-party client accounts
-- Resell Google Ads API access
-- Share OAuth credentials or access tokens
-- Create Google Ads accounts
-- Automatically create, edit, pause, or delete ads
-- Perform prohibited or unattended campaign automation
-- Provide external user access
+Google Ads API access is not resold or distributed. Clients do not receive the
+developer token, OAuth credentials, or direct API credentials.
 
-API usage is primarily read-only. Any optimization decisions are reviewed and performed manually by the account owner directly in Google Ads or through approved Google interfaces.
+## 3. Tool Overview
 
-## 3. System Architecture
+The Google Ads Analytics Dashboard is a restricted-access, read-only reporting
+platform used by:
 
-The system uses a simple internal architecture designed for reliability, security, and minimal data exposure.
+- the operator;
+- authorized internal employees; and
+- authorized client users.
+
+The platform provides:
+
+- campaign performance reporting;
+- ad group monitoring;
+- keyword and search-term analysis;
+- cost, conversion, and conversion-value reporting;
+- historical period comparisons;
+- account-specific dashboards; and
+- on-demand reporting updates.
+
+The platform does not:
+
+- provide public registration;
+- allow one client to view another client's data;
+- resell or distribute Google Ads API access;
+- expose developer tokens or OAuth credentials to frontend users;
+- create Google Ads accounts;
+- automatically create, edit, pause, or delete campaigns, ads, keywords, bids,
+  or budgets; or
+- perform unattended campaign automation.
+
+## 4. System Architecture
+
+The platform uses a restricted, account-scoped architecture.
 
 Core components:
 
-- **Frontend Dashboard**  
-  A private web interface used by the account owner to view reports, charts, tables, and trend summaries.
+- **Restricted Dashboard**  
+  Provides authenticated, account-specific reporting views to internal and
+  client users.
 
 - **Backend Service**  
-  Handles authenticated dashboard requests, report generation, API request coordination, caching, and internal access control.
+  Handles authenticated requests, access checks, report generation, API request
+  coordination, and response normalization.
 
 - **Google Ads API Integration Layer**  
-  Communicates with the official Google Ads API through the Google Ads MCP Server. This layer is responsible for constructing API queries, enforcing read-only usage patterns, and normalizing API responses for the reporting module.
+  Communicates with the official Google Ads API through the Google Ads MCP
+  Server. It constructs read-only reporting queries and normalizes responses.
 
 - **Reporting Module**  
-  Processes retrieved metrics into campaign, ad group, keyword, and trend reports. It supports date range filtering, aggregation, and visualization-ready output.
+  Converts retrieved data into campaign, ad group, keyword, search-term, and
+  trend reports.
 
-- **Local Data Store**  
-  Stores limited cached reporting data, configuration, OAuth token references, and audit metadata. Sensitive credentials are stored securely and are not exposed to the frontend.
+- **Protected Data Store**  
+  Retains only the configuration, authorization references, limited reporting
+  data, and audit information required to provide the reporting service.
 
 Basic workflow:
 
 ```text
-User -> Dashboard -> Backend Service -> Google Ads API Integration Layer -> Google Ads API -> Reports
+Authorized internal or client user
+-> Restricted dashboard
+-> Backend authorization and account-scope check
+-> Google Ads API integration layer
+-> Client-authorized Google Ads account
+-> Account-specific report
 ```
 
-The architecture is intentionally narrow in scope. It is designed for one owner, one internal environment, and owned Google Ads accounts only.
+## 5. Functional API Necessity
 
-## 4. Core Features
+Google Ads API access is essential because the service requires current,
+structured, and account-specific advertising performance data.
 
-The dashboard provides reporting and analytics functionality only.
+Manual exports are not sufficient because they require repeated work for each
+client account and can introduce inconsistent date ranges, filters, columns,
+and account settings. A manual export and upload process would also prevent
+authorized users from requesting updated reports through the restricted
+dashboard.
 
-### Campaign Reporting
+API access enables the platform to:
 
-The tool displays campaign-level metrics such as impressions, clicks, cost, conversions, conversion value, CTR, CPC, CPA, and ROAS where available. Reports can be filtered by account, campaign, and date range.
+- retrieve consistent reporting fields and metrics;
+- refresh reports on demand;
+- maintain account-specific reporting views;
+- compare performance across reporting periods;
+- reduce errors caused by repeated manual exports; and
+- provide clients with updated reporting without sharing API credentials.
 
-### Keyword Performance Analysis
+## 6. Google Ads API Usage
 
-The tool retrieves keyword performance metrics to help identify high-performing, low-performing, and inefficient search terms or keywords. The dashboard supports sorting and filtering by cost, clicks, conversions, CTR, and conversion rate.
+The platform uses OAuth 2.0 authentication and the official Google Ads API
+through the Google Ads MCP Server integration layer.
 
-### Ad Group Monitoring
+Critical read-only functionality includes:
 
-The tool monitors ad group-level performance trends, allowing the owner to compare ad groups within a campaign and identify performance changes over time.
+| API capability | Purpose | Access pattern |
+|---|---|---|
+| `GoogleAdsService.Search` | Paginated retrieval of resources and metrics | Read-only reporting |
+| `GoogleAdsService.SearchStream` | Efficient retrieval of larger report result sets | Read-only reporting |
+| Google Ads Query Language (GAQL) | Campaign, ad group, keyword, and search-term queries | Read-only reporting |
+| Resource metadata | Identification of supported fields, metrics, and segments | Read-only metadata |
 
-### Metrics Visualization
+Retrieved data includes:
 
-The frontend includes charts and tables for trend visualization. Typical visualizations include daily cost, clicks, conversions, conversion value, CTR, CPC, and ROAS.
+- campaign ID, name, status, and advertising channel type;
+- ad group ID, name, and status;
+- keyword and search-term performance;
+- impressions;
+- clicks;
+- cost;
+- conversions;
+- conversion value;
+- click-through rate; and
+- average cost per click, where applicable.
 
-### Performance Trend Analysis
+The backend exposes only reporting and metadata functions. No write operation is
+available through the dashboard.
 
-The reporting module compares current and historical periods to identify directional changes in performance. These insights are informational only and do not trigger automatic campaign changes.
+## 7. Data Access and Account Authorization
 
-## 5. Google Ads API Usage
-
-The tool accesses Google Ads data through OAuth authentication and the official Google Ads API, using the Google Ads MCP Server as the integration mechanism. API calls are limited to owned accounts explicitly configured by the developer.
-
-The application primarily uses reporting queries and read-only retrieval of performance metrics. It does not expose write operations in the dashboard.
-
-| API Area | Example Usage | Purpose | Access Pattern |
-|---|---|---|---|
-| `GoogleAdsService` | GAQL reporting queries | Retrieve campaign, ad group, keyword, and metric data | Read-only reporting |
-| `CampaignService` | Campaign metadata lookup | Retrieve campaign IDs, names, status, and structure | Read-only metadata access |
-| Keyword metrics reporting | Keyword-level GAQL queries | Analyze keyword performance across date ranges | Read-only analytics |
-| Ad group reporting | Ad group and metrics queries | Monitor ad group performance and trends | Read-only analytics |
-
-Example reporting categories:
-
-- Campaign performance by date
-- Ad group performance by campaign
-- Keyword metrics by date range
-- Cost and conversion trends
-- CTR, CPC, CPA, and ROAS summaries
-
-Although the Google Ads OAuth scope may technically allow broader API access, the application enforces read-only behavior at the implementation level by limiting available backend functions to reporting and metadata retrieval.
-
-## 6. Data Access and Storage
-
-The tool accesses only Google Ads accounts owned by the developer. Customer IDs are manually configured and verified before use. No third-party account IDs are accepted or processed.
-
-Stored data is limited to what is necessary for internal reporting:
-
-- OAuth token references
-- Account configuration
-- Cached reporting metrics
-- Report generation metadata
-- Basic internal audit logs
-
-The system does not intentionally collect or store end-user personal data. Reporting data is aggregated advertising performance data retrieved from Google Ads.
-
-Data storage practices:
-
-- OAuth refresh tokens are encrypted at rest.
-- Access tokens are not exposed to the frontend.
-- Cached report data is stored only for internal dashboard performance.
-- Data retention is limited to operational reporting needs.
-- Cached data can be deleted manually by the owner.
-- No Google Ads data is sold, shared, or transferred to third parties.
-
-## 7. User Scope and Permissions
-
-The tool has a single-user model.
-
-Only the owner of the Google Ads account uses the dashboard. There are no external users, customer accounts, agency users, or client-facing permissions.
+The platform accesses only Google Ads accounts that a client has explicitly
+authorized for the reporting project.
 
 Access rules:
 
-- Only owned Google Ads accounts are accessed.
-- No third-party client accounts are supported.
-- No public registration or login is provided.
-- No role-based client access is implemented because the tool is not multi-user.
-- API credentials are not shared with any other user.
-- The dashboard is used only for internal analytics and reporting.
+- Client authorization is required before an account is configured.
+- Each configured customer ID is associated with the corresponding client
+  project.
+- Every report request is checked against the authenticated user's permitted
+  account scope.
+- Requests for unknown or unauthorized customer IDs are rejected.
+- A client user cannot query or view another client's account data.
+- Internal users access client data only when required to deliver the contracted
+  analysis and reporting service.
 
-OAuth authentication is performed by the account owner. The owner explicitly grants access to the Google Ads account data required for reporting.
+## 8. Users and Permissions
 
-## 8. Security Measures
+The platform supports three user groups:
 
-The application follows a minimal-access security model suitable for a private internal analytics tool.
+### Operator
+
+The operator administers the reporting service, client projects, and authorized
+account configuration.
+
+### Authorized Internal Employees
+
+Internal employees can access only the client projects required for their
+assigned reporting work.
+
+### Authorized Client Users
+
+Client users can sign in to view reports associated only with their own
+authorized Google Ads accounts. Client access does not include the developer
+token, OAuth credentials, raw API credentials, or campaign modification
+functions.
+
+There is no public self-service registration.
+
+## 9. Data Handling and Storage
+
+Reporting data is retrieved on demand. Stored information is limited to what is
+required to provide account-specific reporting:
+
+- client project and account configuration;
+- authorization references;
+- limited cached reporting metrics;
+- report generation metadata; and
+- basic security and audit records.
+
+The platform does not intentionally collect consumer personal information from
+Google Ads. The reporting workflow focuses on aggregated advertising
+performance data.
+
+Data handling controls include:
+
+- credentials are handled server-side and are not exposed to the frontend;
+- reporting data is logically separated by client project and account;
+- cached data is retained only for operational reporting needs;
+- access is limited to authenticated and authorized users; and
+- Google Ads data is not sold or disclosed to unrelated third parties.
+
+## 10. Security Measures
 
 Security controls include:
 
-- OAuth-based authentication for Google Ads API access
-- Secure storage of OAuth refresh tokens
-- No frontend exposure of API credentials or developer tokens
-- Backend-only communication with the Google Ads API
-- Environment-based secret configuration
-- Restricted access to configured owned accounts only
-- Internal audit logging for report requests and API activity
-- No public API for external users
-- No token sharing between users or systems
-- No automatic write actions against Google Ads entities
+- OAuth 2.0 authorization for Google Ads account access;
+- backend-only communication with the Google Ads API;
+- no frontend exposure of developer tokens or OAuth credentials;
+- authentication for internal and client users;
+- account-level authorization checks on every report request;
+- separation of client reporting data;
+- rejection of unknown or unauthorized customer IDs;
+- restricted server-side secret configuration;
+- basic audit records for reporting requests; and
+- no automatic write actions against Google Ads entities.
 
-The backend validates all requested account IDs against the owner-approved configuration before making API calls. Requests for unknown or unauthorized customer IDs are rejected.
+## 11. Compliance Scope
 
-## 9. Compliance with Google Ads Policies
-
-The tool is designed to comply with Google Ads API usage expectations for an internal, owner-operated analytics workflow.
+The platform is designed as a read-only analytics and reporting service.
 
 Compliance commitments:
 
-- The tool is used only by the Google Ads account owner.
-- The tool accesses only Google Ads accounts owned by the developer.
-- The tool does not provide third-party account management.
-- The tool does not resell, sublicense, or redistribute Google Ads API access.
-- The tool does not share OAuth tokens, refresh tokens, or API credentials.
-- The tool does not create Google Ads accounts automatically.
-- The tool does not modify ads, keywords, bids, budgets, or campaigns automatically.
-- The tool does not perform prohibited automation.
-- The tool is primarily read-only and focused on reporting.
-- Any campaign decisions are made manually by the account owner.
+- Google Ads accounts are accessed only after explicit client authorization.
+- Each client can access only its own account-specific reporting data.
+- Developer tokens and OAuth credentials are not shared with clients.
+- Google Ads API access is not resold, sublicensed, or redistributed.
+- The platform does not automatically create or modify accounts, campaigns,
+  ads, keywords, bids, or budgets.
+- The platform does not perform prohibited or unattended advertising
+  automation.
+- Data analysis and reporting are provided under a project-based service
+  agreement.
 
-The dashboard is not intended to replace Google Ads account controls or automate advertising management. It exists only to help the owner understand performance data more efficiently.
+## 12. Current Scale and Refresh Model
 
-## 10. Future Improvements
+The current implementation supports:
 
-Planned improvements remain aligned with the same internal, read-only analytics scope.
+- two client-authorized Google Ads accounts;
+- approximately four active campaigns;
+- project-based analysis and reporting; and
+- on-demand data refresh when an authorized user requests or updates a report.
 
-Potential future enhancements include:
+The platform does not claim automatic daily synchronization.
 
-- Improved dashboard filtering and saved internal report views
-- More detailed trend comparison by week, month, and quarter
-- Enhanced local audit logs for API requests
-- Configurable cache retention controls
-- Additional visualization options for campaign and keyword trends
-- Read-only anomaly detection for reporting changes
-- Exportable internal reports for the owner’s own business records
+## 13. Future Improvements
 
-Any future feature involving write access, campaign modification, bidding changes, or automation would be reviewed separately before implementation and would not be enabled without explicit compliance review.
+Future improvements remain within the read-only analytics and reporting scope:
 
-## 11. Conclusion
+- enhanced account-specific dashboard filters;
+- additional historical comparison views;
+- improved audit records;
+- configurable reporting exports;
+- improved client project administration; and
+- read-only anomaly indicators.
 
-This internal Google Ads analytics dashboard is a small, owner-operated reporting tool built for private use by an independent developer. It uses the official Google Ads API through the Google Ads MCP Server to retrieve campaign, ad group, keyword, and performance metrics for owned Google Ads accounts.
+Any future write capability or campaign automation would require separate design
+and compliance review before implementation.
 
-The system is not a SaaS product, agency platform, reseller service, or third-party account management tool. It does not provide external access, does not share credentials, and does not automatically modify Google Ads campaigns.
+## 14. Conclusion
 
-The application’s design is intentionally limited, security-conscious, and compliance-focused. Its purpose is to provide read-only analytics and visualization for the account owner’s own Google Ads performance data.
+The Arshow Google Ads Analytics Dashboard is a restricted-access reporting
+platform used to provide project-based data analysis and reporting services to
+cross-border e-commerce sellers.
+
+It accesses only client-authorized Google Ads accounts, supports internal and
+authorized client users, separates client reporting data, and keeps developer
+tokens and OAuth credentials out of frontend access. Its Google Ads API usage
+is read-only and limited to reporting and metadata retrieval.

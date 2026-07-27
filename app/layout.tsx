@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: "Google Ads Analytics Dashboard | Arshow",
   description:
-    "An internal, read-only Google Ads reporting and analytics tool operated by an independent advertiser.",
+    "A restricted-access, read-only Google Ads analytics and reporting platform for client-authorized accounts.",
   alternates: {
     canonical: siteUrl,
   },
@@ -18,14 +18,14 @@ export const metadata: Metadata = {
     url: siteUrl,
     title: "Google Ads Analytics Dashboard",
     description:
-      "A private reporting workflow for owned Google Ads accounts.",
+      "Account-specific reporting for client-authorized Google Ads accounts.",
     type: "website",
     images: [
       {
         url: socialImageUrl,
         width: 1536,
         height: 1024,
-        alt: "Google Ads Analytics Dashboard — internal, read-only reporting",
+        alt: "Google Ads Analytics Dashboard — restricted, read-only client reporting",
       },
     ],
   },
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Google Ads Analytics Dashboard",
     description:
-      "A private reporting workflow for owned Google Ads accounts.",
+      "Account-specific reporting for client-authorized Google Ads accounts.",
     images: [socialImageUrl],
   },
 };

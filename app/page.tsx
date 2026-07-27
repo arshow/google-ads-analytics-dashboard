@@ -10,31 +10,31 @@ export default function Home() {
     {
       index: "01",
       title: "Campaign reporting",
-      copy: "Daily and weekly performance views across owned Search and Display campaigns.",
+      copy: "Account-specific performance views for client-authorized Google Ads campaigns.",
     },
     {
       index: "02",
       title: "Keyword analysis",
-      copy: "Keyword and search-term metrics organized for efficient owner review.",
+      copy: "Keyword and search-term metrics organized for consistent client reporting.",
     },
     {
       index: "03",
-      title: "Trend monitoring",
-      copy: "Historical comparisons for cost, clicks, conversions and conversion value.",
+      title: "On-demand refresh",
+      copy: "Current reporting data is retrieved when an authorized user requests an update.",
     },
     {
       index: "04",
-      title: "Structured exports",
-      copy: "Repeatable internal reports without relying on manual interface downloads.",
+      title: "Account isolation",
+      copy: "Each client view is restricted to that client's explicitly authorized account data.",
     },
   ];
 
   const safeguards = [
     "OAuth 2.0 authentication",
     "Credentials kept out of the frontend",
-    "Owned accounts only",
+    "Client-authorized accounts only",
     "No public registration",
-    "No third-party client access",
+    "Account-specific client access",
     "No automatic campaign changes",
     "No token sharing or resale",
     "Read-only reporting workflow",
@@ -63,17 +63,17 @@ export default function Home() {
         <div className="hero-copy">
           <div className="eyebrow">
             <span className="status-dot" />
-            Internal reporting system
+            Restricted-access reporting platform
           </div>
           <h1>
             A clearer view of
             <br />
-            <em>owned ad performance.</em>
+            <em>client-authorized performance.</em>
           </h1>
           <p className="hero-lede">
-            A private, read-only Google Ads analytics workflow built for an
-            independent advertiser to monitor campaign performance, analyze
-            keywords and produce consistent internal reports.
+            A read-only Google Ads analytics and reporting platform for
+            cross-border e-commerce sellers, internal analysts and authorized
+            client users.
           </p>
           <div className="hero-actions">
             <a className="primary-button" href="#tool">
@@ -81,7 +81,7 @@ export default function Home() {
             </a>
             <span className="owner-note">
               Operated by Arshow
-              <small>Individual developer &amp; advertiser</small>
+              <small>Project-based analytics &amp; reporting service</small>
             </span>
           </div>
         </div>
@@ -103,7 +103,7 @@ export default function Home() {
                 <strong>Last 30 days</strong>
               </div>
               <button type="button" aria-label="Displayed account selector">
-                Owned account <span>⌄</span>
+                Authorized client account <span>⌄</span>
               </button>
             </div>
             <div className="metric-grid">
@@ -178,62 +178,58 @@ export default function Home() {
           </div>
           <div className="business-copy">
             <p className="lead">
-              Arshow operates independent online retail projects that sell
-              physical consumer products through owned online storefronts.
-              Google Ads is used to reach prospective customers and generate
-              direct product sales.
+              Arshow provides project-based Google Ads data analysis and
+              reporting services to cross-border e-commerce sellers.
             </p>
             <p>
-              The primary customers are individual consumers purchasing products
-              for personal use. The value exchange is straightforward:
-              customers pay for the products they order, and the business
-              provides the products together with order fulfilment and customer
-              support.
+              Clients pay a project fee in exchange for account-specific
+              performance analysis, structured reports, restricted dashboard
+              access and reporting support for the agreed project.
             </p>
             <p>
-              This analytics tool is an internal operating system for the
-              advertiser. It is not sold, licensed or offered as a service to
-              external customers.
+              The platform is used by Arshow, authorized internal employees and
+              authorized client users. It is not open to public registration and
+              is not sold as standalone software.
             </p>
           </div>
         </div>
         <div className="exchange-strip">
           <div>
             <span className="exchange-number">01</span>
-            <strong>Prospective customer</strong>
-            <p>Discovers a relevant product through a Google Ads campaign.</p>
+            <strong>Client authorization</strong>
+            <p>The client explicitly authorizes access to its Google Ads account.</p>
           </div>
           <div className="exchange-arrow" aria-hidden="true">
             ↗
           </div>
           <div>
             <span className="exchange-number">02</span>
-            <strong>Owned online store</strong>
-            <p>Provides product information, checkout and order fulfilment.</p>
+            <strong>Project-based service</strong>
+            <p>Arshow retrieves and analyzes reporting data on demand.</p>
           </div>
           <div className="exchange-arrow" aria-hidden="true">
             ↗
           </div>
           <div>
             <span className="exchange-number">03</span>
-            <strong>Direct value exchange</strong>
-            <p>The customer pays for a physical product and related support.</p>
+            <strong>Account-specific reporting</strong>
+            <p>The client receives structured analysis, reports and dashboard access.</p>
           </div>
         </div>
       </section>
 
       <section className="tool-section" id="tool">
-        <div className="section-kicker light">02 / The internal tool</div>
+        <div className="section-kicker light">02 / The reporting platform</div>
         <div className="tool-intro">
           <h2>
             Reporting that is repeatable,
             <br />
-            structured and <em>owner-controlled.</em>
+            structured and <em>account-specific.</em>
           </h2>
           <p>
             The dashboard converts Google Ads reporting data into focused
-            internal views. It supports manual business decisions; it does not
-            make campaign changes.
+            client-authorized views. It supports analysis and reporting; it does
+            not create or modify campaigns.
           </p>
         </div>
 
@@ -252,14 +248,13 @@ export default function Home() {
             <span className="panel-label">Why API access is essential</span>
             <h3>Manual exports break the reporting rhythm.</h3>
             <p>
-              Recurring interface downloads require repeated manual work and do
-              not provide a dependable way to maintain daily historical
-              snapshots or produce consolidated reports. API access enables
-              consistent retrieval in a structured format, allowing the owner to
-              monitor meaningful changes over time.
+              Manual interface exports require repeated work for each client
+              account and can introduce inconsistent date ranges, filters and
+              columns. API access enables standardized, on-demand retrieval for
+              account-specific analysis and reporting.
             </p>
             <div className="necessity-tags">
-              <span>Daily snapshots</span>
+              <span>On-demand updates</span>
               <span>Historical comparisons</span>
               <span>Consistent metrics</span>
             </div>
@@ -285,7 +280,7 @@ WHERE segments.date
               <span className="check">✓</span>
               <div>
                 <strong>Read-only response</strong>
-                <small>Structured rows prepared for internal reporting</small>
+                <small>Structured rows prepared for account-specific reporting</small>
               </div>
             </div>
           </div>
@@ -298,20 +293,20 @@ WHERE segments.date
           <h2>A deliberately narrow architecture.</h2>
           <p>
             The workflow is limited to authenticated reporting for accounts
-            owned or explicitly authorized by the operator.
+            explicitly authorized by each client.
           </p>
         </div>
         <div className="flow-row">
           <div className="flow-node">
             <span>01</span>
-            <strong>Authorized owner</strong>
-            <small>Single internal user</small>
+            <strong>Authorized user</strong>
+            <small>Client or internal analyst</small>
           </div>
           <div className="flow-connector">→</div>
           <div className="flow-node featured">
             <span>02</span>
-            <strong>Private dashboard</strong>
-            <small>Reporting interface</small>
+            <strong>Restricted dashboard</strong>
+            <small>Account-specific reporting</small>
           </div>
           <div className="flow-connector">→</div>
           <div className="flow-node">
@@ -323,7 +318,7 @@ WHERE segments.date
           <div className="flow-node">
             <span>04</span>
             <strong>Google Ads API</strong>
-            <small>Owned account data</small>
+            <small>Client-authorized account data</small>
           </div>
         </div>
         <div className="api-table-wrap">
@@ -371,7 +366,8 @@ WHERE segments.date
           </h2>
           <p>
             The tool is designed around the smallest practical access surface:
-            one owner, authorized accounts and a reporting-only workflow.
+            authenticated users, client-authorized accounts, account isolation
+            and a reporting-only workflow.
           </p>
         </div>
         <div className="safeguard-list">
@@ -386,11 +382,10 @@ WHERE segments.date
         <div className="compliance-note">
           <strong>Scope statement</strong>
           <p>
-            The application does not create Google Ads accounts, manage
-            third-party client accounts, distribute developer tokens, expose
-            credentials, or automatically create, edit, pause or delete
-            campaigns. Optimization decisions are reviewed and performed
-            manually by the account owner.
+            The platform accesses client accounts only after explicit
+            authorization. Each client can view only its own account data. The
+            platform does not distribute developer tokens, expose credentials,
+            or automatically create, edit, pause or delete campaigns.
           </p>
         </div>
       </section>
@@ -399,17 +394,17 @@ WHERE segments.date
         <div className="footer-main">
           <div>
             <span className="footer-label">Google Ads Analytics Dashboard</span>
-            <h2>Internal reporting, built with clear boundaries.</h2>
+            <h2>Client reporting, built with clear boundaries.</h2>
           </div>
           <a href="mailto:arshow@gmail.com">
             arshow@gmail.com <span aria-hidden="true">↗</span>
           </a>
         </div>
         <div className="footer-bottom">
-          <span>© 2026 Arshow · Individual developer &amp; advertiser</span>
+          <span>© 2026 Arshow · Analytics &amp; reporting service</span>
           <span>
             Google Ads is a trademark of Google LLC. This site describes an
-            independent internal tool.
+            independent restricted-access reporting platform.
           </span>
         </div>
       </footer>

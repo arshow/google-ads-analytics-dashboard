@@ -1,13 +1,14 @@
 # Google Ads Analytics Dashboard
 
-An internal, read-only Google Ads reporting and analytics tool operated by an
-independent advertiser.
+A restricted-access, read-only Google Ads analytics and reporting platform used
+to provide project-based data analysis and reporting services to cross-border
+e-commerce sellers.
 
 ## Website
 
-The public project page explains the underlying business model, the internal
-tool, why Google Ads API access is functionally necessary, the reporting data
-flow, and the security and compliance boundaries.
+The public project page explains the service model, the restricted reporting
+platform, why Google Ads API access is functionally necessary, the reporting
+data flow, client authorization, account isolation, and compliance boundaries.
 
 GitHub Pages URL:
 
@@ -18,14 +19,17 @@ the workflow in `.github/workflows/deploy-pages.yml` whenever `main` is pushed.
 
 ## Purpose
 
-The dashboard supports recurring analysis of Google Ads accounts owned or
-explicitly authorized by the operator. It is designed to:
+The dashboard supports on-demand analysis of Google Ads accounts explicitly
+authorized by clients. It is designed to:
 
 - report campaign and ad group performance;
 - analyze keyword and search-term metrics;
 - monitor cost, clicks, conversions, and conversion value over time;
-- maintain consistent daily and weekly internal reporting views; and
+- provide account-specific views to authorized internal and client users; and
 - reduce reliance on repeated manual report exports.
+
+The current service supports two client-authorized Google Ads accounts and
+approximately four active campaigns. Data is refreshed on demand.
 
 ## API usage
 
@@ -40,10 +44,10 @@ The current workflow is read-only. It uses:
 
 The tool:
 
-- is used only by the owner and authorized internal users;
-- accesses owned or explicitly authorized Google Ads accounts;
+- is used by the operator, authorized internal employees, and authorized clients;
+- accesses only Google Ads accounts explicitly authorized by each client;
+- restricts each client to its own account-specific reporting data;
 - does not provide public registration;
-- does not manage third-party client accounts;
 - does not resell or distribute Google Ads API access;
 - does not expose developer tokens or OAuth credentials; and
 - does not automatically create, edit, pause, or delete campaigns.
